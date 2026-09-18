@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#16130F">
+<title>埃及历史 · 七千年</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- 基底 ---------- */
+:root{
+  --paper:#F4EFE5;
+  --paper-2:#EAE2D2;
+  --ink:#211E19;
+  --ink-2:#57514A;
+  --ink-3:#8D8579;
+  --gold:#A37F35;
+  --gold-2:#C9A45C;
+  --gold-soft:rgba(163,127,53,.30);
+  --line:rgba(33,30,25,.16);
+  --line-2:rgba(33,30,25,.075);
+  --night:#16130F;
+  --cream:#EDE5D6;
+  --serif-cn:"Noto Serif SC","Source Han Serif SC","Songti SC",STSong,"SimSun",serif;
+  --serif-en:"Cormorant Garamond","EB Garamond","Times New Roman",Times,serif;
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif;
+  --maxw:1120px;
+  --text:680px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif-cn);
+  font-size:17px;line-height:2.05;letter-spacing:.012em;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+p{margin:0 0 20px}
+strong{font-weight:600}
+em{font-style:normal;font-weight:600}
+
+/* ---------- 阅读进度 / 纸纹 ---------- */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:30;pointer-events:none;background:rgba(163,127,53,.10)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.grain{
+  position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.15;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 封面 ---------- */
+.masthead{
+  position:relative;overflow:hidden;
+  background:var(--night);color:var(--cream);
+  padding:clamp(64px,13vw,148px) clamp(20px,5vw,48px) clamp(56px,9vw,104px);
+}
+.masthead::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(120% 78% at 50% -12%,rgba(201,164,92,.20),transparent 62%),
+    radial-gradient(70% 55% at 50% 122%,rgba(30,58,95,.28),transparent 70%);
+}
+.masthead::after{
+  content:"";position:absolute;inset:clamp(10px,1.6vw,20px);
+  border:1px solid rgba(201,164,92,.22);pointer-events:none;
+}
+.mast-inner{position:relative;z-index:2;max-width:760px;margin:0 auto;text-align:center}
+.kicker{
+  margin:0 0 clamp(26px,4vw,44px);
+  font-size:11.5px;letter-spacing:.62em;text-indent:.62em;
+  color:var(--gold-2);font-weight:400;
+}
+.masthead h1{
+  margin:0;font-weight:500;
+  font-size:clamp(46px,10vw,92px);line-height:1.06;
+  letter-spacing:.16em;text-indent:.16em;
+  color:#F6F0E2;
+}
+.mast-en{
+  margin:clamp(16px,2.4vw,26px) 0 0;
+  font-family:var(--serif-en);font-size:13px;font-weight:400;
+  letter-spacing:.52em;text-indent:.52em;text-transform:uppercase;
+  color:rgba(237,229,214,.62);
+}
+.mast-rule{
+  width:64px;height:1px;margin:clamp(26px,3.6vw,40px) auto;
+  background:linear-gradient(90deg,transparent,var(--gold-2),transparent);
+}
+.standfirst{
+  margin:0 auto;max-width:600px;
+  font-size:16px;line-height:2.15;color:rgba(237,229,214,.78);
+}
+.mast-meta{
+  margin:clamp(30px,4.4vw,48px) 0 0;
+  font-size:11.5px;letter-spacing:.24em;color:rgba(201,164,92,.85);
+}
+
+/* ---------- 目录 ---------- */
+.toc{
+  max-width:var(--text);margin:0 auto;
+  padding:clamp(52px,8vw,96px) clamp(20px,4vw,24px) 0;
+}
+.toc-label{
+  display:flex;align-items:center;gap:16px;margin:0 0 26px;
+  font-size:11.5px;letter-spacing:.42em;text-indent:.42em;color:var(--gold);
+}
+.toc-label::after{content:"";flex:1;height:1px;background:var(--line)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{border-bottom:1px solid var(--line-2)}
+.toc a{
+  display:flex;align-items:baseline;gap:14px;
+  padding:13px 0;color:var(--ink);text-decoration:none;
+  transition:color .3s ease,gap .3s ease;
+}
+.toc a:hover{color:var(--gold)}
+.toc a:hover .toc-name{letter-spacing:.05em}
+.toc-n{font-family:var(--serif-en);font-size:12.5px;letter-spacing:.08em;color:var(--gold);min-width:1.9em}
+.toc-name{font-size:16.5px;flex:0 1 auto;min-width:0;transition:letter-spacing .3s ease}
+.toc-dots{flex:1 1 16px;min-width:0;border-bottom:1px dotted rgba(33,30,25,.28);transform:translateY(-4px)}
+.toc-en{flex:0 0 auto;font-family:var(--serif-en);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+@media (max-width:720px){
+  .toc a{gap:10px}
+  .toc-en{font-size:10px;letter-spacing:.12em}
+}
+@media (max-width:460px){
+  .toc a{flex-wrap:wrap;row-gap:1px}
+  .toc-name{flex:1 1 auto}
+  .toc-dots{display:none}
+  .toc-en{flex:1 0 100%;text-align:right}
+}
+
+/* ---------- 章节骨架 ---------- */
+main{display:block}
+.chapter{
+  max-width:calc(var(--maxw) + 80px);
+  margin:0 auto;
+  padding:clamp(56px,8vw,104px) clamp(20px,4vw,40px) 0;
+  scroll-margin-top:20px;
+}
+.ch-grid{display:block;max-width:var(--text);margin:0 auto}
+.ch-aside{display:flex;align-items:center;gap:14px;margin:0 0 14px}
+.ch-num{
+  font-family:var(--serif-en);font-weight:300;
+  font-size:clamp(34px,5vw,54px);line-height:1;
+  letter-spacing:.04em;
+  color:rgba(163,127,53,.42);
+}
+@supports ((-webkit-text-stroke:1px #000)){
+  .ch-num{color:transparent;-webkit-text-stroke:1px var(--gold-soft)}
+}
+.ch-aside::after{content:"";flex:1;height:1px;background:var(--line-2)}
+.ch-title{
+  margin:0;font-size:clamp(23px,3vw,30px);font-weight:600;
+  line-height:1.5;letter-spacing:.03em;
+}
+.ch-en{
+  margin:10px 0 0;font-family:var(--serif-en);
+  font-size:11.5px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);
+}
+.ch-rule{position:relative;height:1px;margin:22px 0 30px;background:var(--line)}
+.ch-rule::before{content:"";position:absolute;left:0;top:0;width:46px;height:1px;background:var(--gold)}
+
+@media (min-width:1060px){
+  .ch-grid{display:grid;max-width:none;grid-template-columns:150px minmax(0,var(--text)) 1fr;column-gap:52px}
+  .ch-aside{display:block;margin:2px 0 0}
+  .ch-aside::after{display:block;width:34px;height:1px;margin:16px 0 0}
+  .ch-num{font-size:56px}
+}
+
+/* ---------- 正文 ---------- */
+.ch-body{font-size:17px}
+.ch-body p{margin:0 0 22px;color:var(--ink)}
+.ch-body .lead{font-size:18px;line-height:2.05}
+.dropcap{
+  float:left;margin:.08em .16em 0 0;
+  font-size:3.05em;line-height:1;font-weight:500;color:var(--gold);
+}
+.ch-body ul,.ch-body ol{list-style:none;margin:0 0 26px;padding:0}
+.ch-body li{position:relative;margin:0 0 13px;padding-left:26px;line-height:1.95}
+.ch-body li::before{
+  content:"";position:absolute;left:3px;top:.82em;
+  width:6px;height:6px;border:1px solid var(--gold);
+  transform:rotate(45deg);
+}
+.ch-body li strong{color:var(--ink)}
+.coda{
+  position:relative;margin:46px 0 0;padding-top:28px;
+  text-align:center;font-size:18px;line-height:2;letter-spacing:.04em;color:var(--ink-2);
+}
+.coda::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:64px;height:1px;background:var(--gold-soft)}
+
+/* ---------- 章末引言 ---------- */
+.pull{
+  margin:46px 0 6px;padding:6px 0 6px 26px;
+  border-left:2px solid var(--gold);
+}
+.pull p{
+  margin:0;font-size:clamp(18px,2.4vw,21px);line-height:1.95;
+  font-weight:500;letter-spacing:.02em;color:var(--ink);
+}
+.pull::after{content:"";display:block;width:22px;height:1px;margin-top:18px;background:var(--gold-soft)}
+
+/* ---------- 时间轴 ---------- */
+.timeline{list-style:none;margin:38px 0 40px;padding:0;position:relative}
+.timeline::before{
+  content:"";position:absolute;left:3px;top:10px;bottom:10px;width:1px;
+  background:linear-gradient(180deg,transparent,var(--gold-soft) 6%,var(--gold-soft) 94%,transparent);
+}
+.timeline li{position:relative;margin:0;padding:0 0 30px 30px}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--paper);border:1px solid var(--gold);
+}
+.tl-date{
+  display:block;font-family:var(--serif-en);
+  font-size:14.5px;letter-spacing:.06em;color:var(--gold);
+  font-variant-numeric:tabular-nums;
+}
+.tl-h{margin:3px 0 8px;font-size:19px;font-weight:600;letter-spacing:.03em;line-height:1.5}
+.tl-line{margin:0;font-size:15px;line-height:1.9;color:var(--ink-2)}
+.tl-tag{
+  display:inline-block;margin-right:8px;padding:1px 7px;
+  font-size:10.5px;letter-spacing:.18em;color:var(--gold);
+  border:1px solid var(--gold-soft);border-radius:1px;
+  transform:translateY(-1px);
+}
+@media (min-width:760px){
+  .timeline li{display:grid;grid-template-columns:186px 1fr;column-gap:24px;padding-left:34px}
+  .tl-date{padding-top:2px}
+}
+
+/* ---------- 表格 ---------- */
+.tbl-wrap{margin:36px 0 40px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-cap{
+  margin:0 0 14px;font-size:11px;letter-spacing:.3em;text-indent:.3em;
+  text-transform:uppercase;color:var(--gold);
+}
+table{width:100%;border-collapse:collapse;font-size:15.5px;line-height:1.8;font-variant-numeric:tabular-nums}
+th{
+  text-align:left;font-weight:500;font-size:12.5px;letter-spacing:.16em;color:var(--ink-3);
+  padding:12px 18px 10px 0;border-top:1px solid var(--gold);border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+td{padding:14px 18px 14px 0;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+th:last-child,td:last-child{padding-right:0}
+td:first-child{color:var(--ink);font-weight:500}
+tbody tr:last-child td{border-bottom:1px solid var(--line)}
+table.stages tbody{counter-reset:st}
+table.stages tbody tr{counter-increment:st}
+table.stages td:first-child::before{
+  content:counter(st,decimal-leading-zero);
+  font-family:var(--serif-en);font-size:12px;letter-spacing:.06em;
+  color:var(--gold);margin-right:11px;
+}
+@media (max-width:560px){
+  .tbl-wrap table{min-width:440px}
+  .tbl-wrap{padding-bottom:6px}
+}
+
+/* ---------- 深色特稿章 ---------- */
+.bleed{position:relative}
+.bleed::before{
+  content:"";position:absolute;top:0;bottom:0;left:50%;
+  width:100vw;transform:translateX(-50%);
+  background:var(--night);z-index:0;
+}
+.bleed>*{position:relative;z-index:1}
+.chapter.dark{color:var(--cream)}
+.chapter.dark .ch-title{color:#F4EEE0}
+.chapter.dark .ch-num{color:rgba(201,164,92,.5)}
+@supports ((-webkit-text-stroke:1px #000)){
+  .chapter.dark .ch-num{color:transparent;-webkit-text-stroke:1px rgba(201,164,92,.42)}
+}
+.chapter.dark .ch-aside::after{background:rgba(237,229,214,.14)}
+.chapter.dark .ch-rule{background:rgba(237,229,214,.14)}
+.chapter.dark .ch-body p,.chapter.dark .ch-body li{color:rgba(237,229,214,.82)}
+.chapter.dark .ch-body strong{color:#FFF9EC}
+.chapter.dark .dropcap{color:var(--gold-2)}
+.chapter.dark .pull{border-left-color:var(--gold-2)}
+.chapter.dark .pull p{color:#F4EEE0}
+.chapter.dark th{color:rgba(237,229,214,.55);border-bottom-color:rgba(237,229,214,.16)}
+.chapter.dark td{color:rgba(237,229,214,.74);border-bottom-color:rgba(237,229,214,.09)}
+.chapter.dark td:first-child{color:#F4EEE0}
+.chapter.dark tbody tr:last-child td{border-bottom-color:rgba(237,229,214,.16)}
+.chapter.dark .coda{color:rgba(237,229,214,.7)}
+
+/* ---------- 速览卡片 ---------- */
+.cards{
+  display:grid;gap:1px;margin:36px 0 42px;
+  background:var(--line-2);
+  border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);
+}
+.card{background:var(--paper);padding:24px 22px 26px}
+.card .card-y{font-family:var(--serif-en);font-size:27px;line-height:1;color:var(--gold);letter-spacing:.02em}
+.card h3{margin:12px 0 8px;font-size:16.5px;font-weight:600;letter-spacing:.03em}
+.card p{margin:0;font-size:14px;line-height:1.9;color:var(--ink-2)}
+@media (min-width:780px){.cards{grid-template-columns:repeat(3,1fr)}}
+
+/* ---------- 分隔纹样 ---------- */
+.orn{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  max-width:var(--text);margin:clamp(52px,7vw,88px) auto 0;padding:0 24px;
+}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-soft))}
+.orn::after{background:linear-gradient(270deg,transparent,var(--gold-soft))}
+.orn i{width:7px;height:7px;border:1px solid var(--gold);transform:rotate(45deg)}
+
+/* ---------- 页脚 ---------- */
+footer{
+  margin-top:clamp(64px,9vw,120px);
+  background:var(--night);color:rgba(237,229,214,.55);
+  padding:clamp(56px,8vw,96px) 24px clamp(60px,8vw,100px);
+  text-align:center;position:relative;
+}
+footer::before{
+  content:"";position:absolute;inset:clamp(10px,1.6vw,18px);
+  border:1px solid rgba(201,164,92,.16);pointer-events:none;
+}
+.foot-mark{
+  font-size:24px;letter-spacing:.4em;text-indent:.4em;
+  color:#F0E8D8;font-weight:500;
+}
+.foot-line{width:56px;height:1px;margin:24px auto;background:linear-gradient(90deg,transparent,var(--gold-2),transparent)}
+.foot-sub{margin:0;font-size:13px;letter-spacing:.2em;color:rgba(237,229,214,.6)}
+.foot-en{
+  margin:16px 0 0;font-family:var(--serif-en);font-size:11px;
+  letter-spacing:.34em;text-transform:uppercase;color:rgba(201,164,92,.6);
+}
+.totop{
+  display:inline-block;margin-top:34px;padding-bottom:3px;
+  font-size:12.5px;letter-spacing:.24em;text-decoration:none;
+  color:rgba(237,229,214,.72);border-bottom:1px solid rgba(201,164,92,.4);
+  transition:color .3s ease,border-color .3s ease;
+}
+.totop:hover{color:var(--gold-2);border-color:var(--gold-2)}
+
+/* ---------- 入场 ---------- */
+.js .reveal{opacity:0;transform:translateY(16px)}
+.js .reveal.in{opacity:1;transform:none;transition:opacity .85s cubic-bezier(.22,.61,.36,1),transform .85s cubic-bezier(.22,.61,.36,1)}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* ---------- 打印 ---------- */
+@media print{
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff}
+  body{font-size:10.5pt;line-height:1.85}
+  .progress,.grain,.totop{display:none!important}
+  .reveal{opacity:1!important;transform:none!important}
+  .masthead,.bleed::before,footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .masthead{padding:40mm 12mm 24mm}
+  .masthead h1{font-size:44pt}
+  .chapter{padding:12mm 0 0;max-width:none;break-inside:auto}
+  .ch-grid{display:block}
+  .ch-aside{margin-bottom:4mm}
+  .bleed::before{display:none}
+  .chapter.dark{background:#16130F;color:#EDE5D6;padding:10mm}
+  .cards,.timeline li,.pull,.tbl-wrap,table,.coda{break-inside:avoid}
+  .ch-title{break-after:avoid}
+  a{text-decoration:none;color:inherit}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><i></i></div>
+<div class="grain"></div>
+
+<!-- ============ 封面 ============ -->
+<header class="masthead" id="top">
+  <div class="mast-inner">
+    <p class="kicker">尼罗河 · 七千年</p>
+    <h1>埃及历史</h1>
+    <p class="mast-en">Egypt</p>
+    <div class="mast-rule"></div>
+    <p class="standfirst">
+      一条河，三千年秩序。从吉萨的金字塔到帝王谷的壁画，从象形文字的沉寂到罗塞塔石碑的破译：
+      埃及的历史，是文明如何在时间里反复复原的历史。
+    </p>
+    <p class="mast-meta">约公元前 3100 年 — 公元 2025 年 · 共十二节</p>
+  </div>
+</header>
+
+<!-- ============ 目录 ============ -->
+<nav class="toc" id="contents">
+  <p class="toc-label">目录</p>
+  <ol>
+    <li><a href="#s1"><span class="toc-n">01</span><span class="toc-name">尼罗河与七千年</span><span class="toc-dots"></span><span class="toc-en">The Nile</span></a></li>
+    <li><a href="#s2"><span class="toc-n">02</span><span class="toc-name">统一与古王国：金字塔时代</span><span class="toc-dots"></span><span class="toc-en">The Pyramid Age</span></a></li>
+    <li><a href="#s3"><span class="toc-n">03</span><span class="toc-name">第一中间期与中王国</span><span class="toc-dots"></span><span class="toc-en">The Middle Kingdom</span></a></li>
+    <li><a href="#s4"><span class="toc-n">04</span><span class="toc-name">新王国：帝国的五百年</span><span class="toc-dots"></span><span class="toc-en">The Empire</span></a></li>
+    <li><a href="#s5"><span class="toc-n">05</span><span class="toc-name">神庙与信仰</span><span class="toc-dots"></span><span class="toc-en">Temple &amp; Faith</span></a></li>
+    <li><a href="#s6"><span class="toc-n">06</span><span class="toc-name">卢克索：东岸与西岸</span><span class="toc-dots"></span><span class="toc-en">Luxor</span></a></li>
+    <li><a href="#s7"><span class="toc-n">07</span><span class="toc-name">帝王谷与西岸陵墓</span><span class="toc-dots"></span><span class="toc-en">The Valley of the Kings</span></a></li>
+    <li><a href="#s8"><span class="toc-n">08</span><span class="toc-name">阿斯旺与阿布辛贝</span><span class="toc-dots"></span><span class="toc-en">Aswan &amp; Abu Simbel</span></a></li>
+    <li><a href="#s9"><span class="toc-n">09</span><span class="toc-name">晚期：波斯、希腊与罗马</span><span class="toc-dots"></span><span class="toc-en">The Late Period</span></a></li>
+    <li><a href="#s10"><span class="toc-n">10</span><span class="toc-name">从罗马到伊斯兰</span><span class="toc-dots"></span><span class="toc-en">Rome to Islam</span></a></li>
+    <li><a href="#s11"><span class="toc-n">11</span><span class="toc-name">象形文字的破译与近代考古</span><span class="toc-dots"></span><span class="toc-en">Decipherment</span></a></li>
+    <li><a href="#s12"><span class="toc-n">12</span><span class="toc-name">两座博物馆</span><span class="toc-dots"></span><span class="toc-en">The Museums</span></a></li>
+  </ol>
+</nav>
+
+<div class="orn reveal"><i></i></div>
+
+<main>
+
+<!-- ============ 01 ============ -->
+<section class="chapter" id="s1">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">01</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">尼罗河与七千年</h2>
+        <p class="ch-en">The Nile</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">埃</span>及全国约 96% 是沙漠，人口集中在尼罗河两岸的狭长绿带和三角洲。古代遗迹也几乎都沿河分布，从北到南依次是亚历山大、开罗与吉萨、卢克索、阿斯旺。理解埃及历史，首先要理解这条河：它每年泛滥，带来淤泥和可耕地，也带来了需要统一管理的水利与农业，这是埃及很早就形成中央王权的地理基础。</p>
+
+        <p>埃及文明的一个特点是延续时间长、结构稳定。同一条河、同一套神系、同一种文字、同一个「法老」概念，连续运转了三千年。中间被外族打断过几次，但每次复原都会沿用旧制，因此今天在神庙里看到的，往往是多个时代不断改建、叠加的结果。</p>
+
+        <p>把埃及的年代换算成中国朝代，更容易建立时间感：</p>
+
+        <p class="tbl-cap">埃及 · 中国 年代对照</p>
+        <ol class="timeline">
+          <li>
+            <span class="tl-date">约前 2686–2181</span>
+            <div>
+              <h3 class="tl-h">古王国</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>三皇五帝传说时期</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>吉萨金字塔、狮身人面像</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">约前 2055–1650</span>
+            <div>
+              <h3 class="tl-h">中王国</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>夏、商初</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>底比斯兴起</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">约前 1550–1069</span>
+            <div>
+              <h3 class="tl-h">新王国</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>商</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>卡纳克、帝王谷、图坦卡蒙</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">前 305–30</span>
+            <div>
+              <h3 class="tl-h">托勒密王朝</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>战国末、西汉</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>菲莱神庙、丹德拉神庙</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">前 30–641</span>
+            <div>
+              <h3 class="tl-h">罗马与科普特</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>汉至唐</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>早期基督教遗迹</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">641–1798</span>
+            <div>
+              <h3 class="tl-h">伊斯兰时期</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>唐至清</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>开罗老城</p>
+            </div>
+          </li>
+          <li>
+            <span class="tl-date">1805 年至今</span>
+            <div>
+              <h3 class="tl-h">近现代</h3>
+              <p class="tl-line"><span class="tl-tag">中国当时</span>清至今</p>
+              <p class="tl-line"><span class="tl-tag">代表遗迹</span>大埃及博物馆</p>
+            </div>
+          </li>
+        </ol>
+
+        <p>胡夫金字塔建成于约公元前 2560 年，距离秦始皇统一中国（公元前 221 年）约 2300 年，距今约 4600 年。</p>
+
+        <blockquote class="pull">
+          <p>同一条河、同一套神系、同一种文字、同一个「法老」概念，连续运转了三千年。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 · 深色特稿 ============ -->
+<section class="chapter dark bleed" id="s2">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">02</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">统一与古王国：金字塔时代</h2>
+        <p class="ch-en">The Pyramid Age</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">尼</span>罗河上下游早先形成两个政治区域：南方的上埃及以鹰神荷鲁斯为象征，北方三角洲的下埃及以蛇神瓦吉特为象征。约公元前 3100 年，南方首领纳尔迈北上统一两地，法老制度由此开始。此后三千年，法老的头饰和雕像底座通常会同时佩戴上下埃及的象征，表示对两地的统治权。</p>
+
+        <p>古王国的首都设在孟菲斯，位于今天的萨卡拉、吉萨一带。第三王朝的左塞尔王请建筑师伊姆霍特普在萨卡拉建造了第一座阶梯金字塔——把六层马斯塔巴（扁平的长方体墓）叠起来，形成所谓「通往天空的台阶」。这是已知最早的大型石造建筑。伊姆霍特普也是最早留下姓名的建筑师，后来被埃及人奉为智慧之神。</p>
+
+        <p>第四王朝是金字塔营建最密集的时期。斯尼弗鲁建造了两座：先是想做平滑面的金字塔，施工中途改变角度，形成今天看到的弯曲金字塔；随后建成的红色金字塔是第一座真正成功的平滑面金字塔。他的儿子胡夫建造了吉萨大金字塔，孙子哈夫拉建造了第二座金字塔和狮身人面像。</p>
+
+        <div class="tbl-wrap">
+          <p class="tbl-cap">金字塔的五级台阶</p>
+          <table class="stages">
+            <thead><tr><th>阶段</th><th>建筑</th><th>关键变化</th></tr></thead>
+            <tbody>
+              <tr><td>马斯塔巴</td><td>萨卡拉等地</td><td>扁平的长方体砖石墓</td></tr>
+              <tr><td>阶梯金字塔</td><td>萨卡拉</td><td>六层马斯塔巴叠加，形成台阶</td></tr>
+              <tr><td>弯曲金字塔</td><td>达赫舒尔</td><td>施工中角度改小，呈折腰形</td></tr>
+              <tr><td>红色金字塔</td><td>达赫舒尔</td><td>第一座平滑面金字塔</td></tr>
+              <tr><td>吉萨三大金字塔</td><td>吉萨</td><td>规模与建造精度的顶点</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>之所以要做成平滑面，与太阳信仰有关。埃及人相信太阳神「拉」的光芒是倾斜地从天而降的，金字塔的四条棱象征这种光芒，法老死后要顺着它升天。因此金字塔表面原本还覆盖着一层打磨光滑的白色石灰石，在阳光下会反光。哈夫拉金字塔顶端至今残留着原装外壳，是唯一能看到原始外观的一座。</p>
+
+        <p>吉萨高原上不止三座金字塔，而是一个完整的墓葬群：三座主金字塔、狮身人面像、若干王后小金字塔、贵族马斯塔巴墓，以及工匠村遗址。三座主金字塔属于第四王朝的祖孙三代。<strong>胡夫金字塔</strong>原高 146.6 米（现存 138.5 米），此前一直是世界最高建筑，由约 230 万块石头砌成，平均每块重 2.5 吨，四条底边的长度误差只有几厘米，基座几乎正对北方。内部通道通往国王室，其上方的五层减压室是人类早期的抗震结构设计之一，墓室内只有一具空石棺。</p>
+
+        <p><strong>哈夫拉金字塔</strong>实际高度低于胡夫，但建在更高的岩台上，加上顶部保留的外壳石，看起来反而是最高的一座。<strong>孟卡拉金字塔</strong>只有胡夫的三分之一高，北面有一道巨大的竖直裂痕，是 12 世纪一位苏丹试图拆解取石、施工八个月后放弃留下的痕迹。南侧的三座王后小金字塔中，有一座顶部还残留着原始花岗岩外壳。</p>
+
+        <p><strong>狮身人面像</strong>长约 73 米、高约 20 米，由一整块石灰岩雕成，一般认为头像是哈夫拉的面孔，身体是卧狮，象征力量与守护，位置朝东。它下巴上原本有一段胡须，现藏于大英博物馆和埃及博物馆。鼻子缺失的原因，流传较广的说法是拿破仑士兵炮击所致，但更可靠的记载指向 14 世纪的马穆鲁克时期。</p>
+
+        <p>1954 年在胡夫金字塔南侧石坑中发现了一艘长约 43 米、用雪松木拼成的完整古船，由 1200 多块木料组成，没有使用一枚钉子。它是为法老在来世随太阳神航行而准备的，其中一艘已移入大埃及博物馆展出。</p>
+
+        <p><strong>萨卡拉</strong>除了阶梯金字塔，还有乌纳斯金字塔，其墓室内壁刻满了人类最早的「金字塔文」，是已知最古老的宗教文献之一。这一带新开放的贵族墓（如卡特纳卡墓、梅胡墓）壁画色彩保存良好。达赫舒尔的红色金字塔内部通道宽敞，参观人数也少。孟菲斯是古王国首都遗址，地面遗存很少，露天陈列着一尊拉美西斯二世卧像和一座雪花石膏狮身人面像。</p>
+
+        <blockquote class="pull">
+          <p>金字塔的四条棱象征这种光芒，法老死后要顺着它升天。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="chapter" id="s3">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">03</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">第一中间期与中王国</h2>
+        <p class="ch-en">The Middle Kingdom</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">古</span>王国末期，王权衰弱、气候干旱、中央财政崩溃，各地贵族各自为政，史称第一中间期。这段时期留下了一批文学作品，如《伊普味陈辞》，其中出现了对社会不公和个人苦难的描述，这在早期文献中较为少见。</p>
+
+        <p>约公元前 2055 年，南方的底比斯重新统一全国，埃及的政治重心第一次南移，进入中王国。第十二王朝时期，文学、数学和水利工程都有发展，势力向南延伸到努比亚，即今天的阿斯旺以南、苏丹境内。底比斯的地方神阿蒙，也从此升格为全埃及的至高神，这是后来卡纳克神庙能够积累巨额财富的原因。</p>
+
+        <p>约公元前 1650 年，来自西亚的喜克索斯人占据三角洲，统治北方百余年，史称第二中间期。他们给埃及带来了马和战车。埃及人掌握之后将他们驱逐出境，并追至西亚，埃及的帝国时期由此开始。</p>
+
+        <blockquote class="pull">
+          <p>底比斯的地方神阿蒙，也从此升格为全埃及的至高神，这是后来卡纳克神庙能够积累巨额财富的原因。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="chapter" id="s4">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">04</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">新王国：帝国的五百年</h2>
+        <p class="ch-en">The Empire</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">新</span>王国（约前 1550–1069）是埃及的鼎盛期，也是今天卢克索大部分遗迹、阿布辛贝神庙和大埃及博物馆里图坦卡蒙藏品的来源。</p>
+
+        <p><strong>十八王朝</strong>的哈特谢普苏特是古埃及少见的女性法老，以戴假胡子的形象出现，在代尔巴哈里建造了那座三层平台的神庙。图特摩斯三世被称作「古代的拿破仑」，在位期间打出了埃及历史上最大的版图。阿肯那顿继位后宣布只信奉太阳神阿顿，迁都阿玛尔纳，大幅改变了延续千年的艺术风格。他死后，图坦卡蒙把宗教与艺术传统恢复原状。图坦卡蒙 9 岁登基、19 岁左右去世，因为墓葬躲过盗墓者，成为 20 世纪最著名的考古发现。</p>
+
+        <p><strong>十九王朝</strong>的塞提一世在帝王谷建造了规模最大、装饰最完整的陵墓，编号 KV17。他的儿子拉美西斯二世统治 66 年，在阿布辛贝雕刻了自己的巨型坐像，在卡纳克修建了 134 根石柱的柱厅，并与赫梯人签订了人类历史上第一份有文字记载的和平条约。</p>
+
+        <p><strong>二十王朝</strong>的拉美西斯三世两次击退「海上民族」的入侵，在哈布城建造的神庙是西岸保存最完整的一座，塔门上刻有古代世界规模较大的战争场景浮雕。</p>
+
+        <blockquote class="pull">
+          <p>图坦卡蒙 9 岁登基、19 岁左右去世，因为墓葬躲过盗墓者，成为 20 世纪最著名的考古发现。</p>
+        </blockquote>
+
+        <p class="coda">新王国之后，埃及再未恢复同等程度的中央集权，但神庙与陵墓的营造传统又延续了近千年。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="chapter" id="s5">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">05</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">神庙与信仰</h2>
+        <p class="ch-en">Temple &amp; Faith</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">埃</span>及神庙不是供信徒聚会的地方，而是神的住所。空间按「越往里越暗、越小、越私密」的顺序组织，从正门走到最深处，光线和空间尺度逐级递减，对应从外部世界进入神域的过渡。一座典型神庙由以下几部分组成：</p>
+
+        <ul>
+          <li><strong>码头与神道</strong>：原本直通尼罗河，每年神像巡游时在此上船。今天大多只剩一段石阶和两侧的狮身人面像或羊头狮身像。</li>
+          <li><strong>塔门</strong>：两座巨大的梯形墙夹着中央的门，是神庙的正立面。墙上的凹槽原本插旗杆，浮雕刻着法老制服敌人的场景，属于政治宣传性质的图像，不是写实记录。</li>
+          <li><strong>露天庭院</strong>：唯一允许普通人进入的部分，阳光直射，四周环绕柱廊。</li>
+          <li><strong>柱厅</strong>：屋顶由巨柱支撑，只在中央留出天窗采光。柱头分纸莎草和莲花两种，分别代表下埃及和上埃及。</li>
+          <li><strong>圣所</strong>：最深处的小室，供奉神像，只有法老和高阶祭司可以进入。</li>
+          <li><strong>圣湖</strong>：祭司每日沐浴净化用的人工湖。</li>
+        </ul>
+
+        <p>看浮雕有三个要点。第一，埃及绘画采用「组合视角」：头是侧面、眼睛是正面、肩膀是正面、腿是侧面，目的是让每个部位都展示得最清楚，而不是追求真实。第二，人物越重要画得越大，法老通常比随从高出一倍。第三，注意被凿掉的名字：很多地方能看到改动痕迹，那是后世法老在进行政治性的记忆抹除。</p>
+
+        <p>埃及的神数量众多，其中出现频率最高的一组叫赫利奥波利斯的九柱神，是一个家族谱系：太阳神阿图姆（拉）生出空气之神舒和湿气女神泰芙努特，他们生出大地之神盖布和天空女神努特，盖布与努特又生出奥西里斯、伊西斯、赛特、奈芙蒂斯四兄妹。这个故事的核心是：赛特杀死兄长奥西里斯并分尸，伊西斯把丈夫的遗体拼回使其复活，生下荷鲁斯；荷鲁斯长大后打败赛特，夺回王位。这构成了法老权力的合法性来源——在位的法老被视为「活着的荷鲁斯」，死去的法老则成为「奥西里斯」。</p>
+
+        <div class="tbl-wrap">
+          <p class="tbl-cap">九柱神与主要神祇</p>
+          <table>
+            <thead><tr><th>神</th><th>形象</th><th>职能</th></tr></thead>
+            <tbody>
+              <tr><td>拉 / 阿图姆</td><td>隼头，头顶太阳圆盘</td><td>太阳神</td></tr>
+              <tr><td>奥西里斯</td><td>皮肤绿色或黑色，裹成木乃伊状</td><td>冥界之王，象征复活</td></tr>
+              <tr><td>伊西斯</td><td>头顶王座形头饰</td><td>魔法与母性之神</td></tr>
+              <tr><td>荷鲁斯</td><td>隼头，戴上下埃及双冠</td><td>王权守护神</td></tr>
+              <tr><td>阿努比斯</td><td>黑色胡狼头</td><td>防腐之神，墓地守护者</td></tr>
+              <tr><td>赛特</td><td>长着无法辨认的「赛特兽」头</td><td>混乱、风暴、沙漠之神</td></tr>
+              <tr><td>托特</td><td>朱鹭头或狒狒</td><td>智慧、书写之神</td></tr>
+              <tr><td>哈托尔</td><td>牛角托着太阳圆盘</td><td>爱、音乐与欢乐之神</td></tr>
+              <tr><td>阿蒙</td><td>人形或公羊头</td><td>底比斯主神，与拉合并为阿蒙-拉</td></tr>
+              <tr><td>塞赫麦特</td><td>狮头女性</td><td>战争与瘟疫之神，也主管治疗</td></tr>
+              <tr><td>玛阿特</td><td>头顶一根鸵鸟羽毛</td><td>真理与秩序，法老职责即「维持玛阿特」</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>古埃及人认为人由几部分构成，包括肉体、卡（生命力）和巴（人格，常画成鸟）。死后这些部分会分离，但只要躯体保存完好、名字被念诵，它们就能重新聚合，进入来世。这就是木乃伊制作、雕像和刻写名字的意义。木乃伊制作需取出内脏、用泡碱干燥、缠上亚麻布，全过程约 70 天。</p>
+
+        <p>《亡灵书》不是一本书，而是一套咒语集，写在棺材或纸草上，帮助死者通过冥界的关卡。其中最著名的题材是心脏称量仪式：冥神奥西里斯的大厅里，阿努比斯用天平称死者的心脏，另一端是象征真理的玛阿特羽毛。如果心脏比羽毛重，说明罪孽深重，旁边的怪兽阿米特就会把它吃掉，这在埃及观念中意味着彻底消亡。</p>
+
+        <blockquote class="pull">
+          <p>埃及神庙不是供信徒聚会的地方，而是神的住所。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="chapter" id="s6">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">06</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">卢克索：东岸与西岸</h2>
+        <p class="ch-en">Luxor</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">卢</span>克索是古埃及新王国的首都底比斯，荷马称之为「百门之城」。它的布局遵循一个固定的观念：太阳从东边升起、在西边落下，夜间穿过地下世界，次日再从东方升起。因此神庙建在东岸，属于「活人的世界」；陵墓建在西岸，属于「死者的世界」。法老把陵墓建在西岸，即与这一信仰相关。</p>
+
+        <p>另外，古代的卢克索属于「上埃及」。上埃及在南边，因为埃及人按尼罗河的流向来定义上下，河水从南往北流，所以南方是上游，称为「上」。</p>
+
+        <p><strong>卡纳克</strong>不是一座神庙，而是一个建筑群。前后约 2000 年间，几十位法老不断增建，主体是阿蒙-拉大神庙。其中的大柱厅是埃及规模最大的柱厅，面积约 5000 平方米，134 根石柱排成 16 列，中央 12 根高达约 21 米，柱顶可以站下 100 个人。柱身原本通体彩绘，至今还能看到残留的颜色，尤其是柱顶横梁底面那些不被阳光直射的部分。</p>
+
+        <p>卡纳克还有哈特谢普苏特方尖碑，高约 29.5 米，是埃及境内现存最高的一座，碑文记载她为阿蒙神立碑、碑尖包金。旁边倒着一座，可以看到断面和当年运输时留下的裂痕。神庙墙上到处能看到后世法老磨掉前任名字的痕迹，最典型的是哈特谢普苏特的名字被图特摩斯三世派人铲除——在埃及观念中，名字被抹掉就无法复活。圣湖边的圣甲虫雕像，传说绕行七圈会带来好运。</p>
+
+        <p><strong>卢克索神庙</strong>位于市区，与卡纳克之间由一条长约 2.5 公里的神道相连，两侧排列着狮身人面像，这条神道经过多年发掘与修复后已重新开放。每年奥佩特节期间，阿蒙神的雕像从卡纳克出发，沿神道巡游到这里，与法老「会面」，重新确认王权的合法性。</p>
+
+        <p>神庙门口的塔门前有两尊拉美西斯二世坐像和一根约 25 米高的方尖碑。方尖碑原本是一对，另一根在 19 世纪被搬到了巴黎协和广场。庭院中，阿蒙霍特普三世庭院三面环绕着 64 根纸莎草束柱，柱头为开放的纸莎草花造型。神庙深处留有罗马时期的亚历山大礼拜堂，而庭院的柱廊之上直接建着一座仍在使用的阿布·哈格清真寺。这座建筑先后被用作神庙、教堂和清真寺。</p>
+
+        <p>神庙目前设有夜间照明，柱子和浮雕的立体感比白天更明显。</p>
+
+        <blockquote class="pull">
+          <p>因此神庙建在东岸，属于「活人的世界」；陵墓建在西岸，属于「死者的世界」。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="chapter" id="s7">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">07</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">帝王谷与西岸陵墓</h2>
+        <p class="ch-en">The Valley of the Kings</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">古</span>王国的金字塔几乎全被盗掘一空，目标过于明显。新王国的法老改把陵墓凿进底比斯西岸的石灰岩山体里，凿在一个干涸的河谷中，即帝王谷。谷中有一座山峰形状近似天然的金字塔，古埃及人认为它形似女神梅里特塞格，称之为「西方的守护者」。</p>
+
+        <p>谷中已发现 60 多座陵墓，编号以 KV 开头。其中最著名的几座：</p>
+
+        <ul>
+          <li><strong>KV62，图坦卡蒙墓</strong>：帝王谷中最小的一座，却因为随葬品保存完整而最著名。随葬品大部分已移入大埃及博物馆，墓中现可看到墓室壁画与木乃伊。</li>
+          <li><strong>KV17，塞提一世墓</strong>：帝王谷最长、最深、装饰最完整的陵墓，长约 137 米，几乎每一寸墙面都有浮雕与彩绘，天花板上的天文穹顶保存良好。</li>
+          <li><strong>KV9，拉美西斯五世与六世墓</strong>：合葬墓，墓顶绘有《日之书》与《夜之书》天文图，深蓝与金色的图案布满整个墓顶。</li>
+          <li><strong>KV11，拉美西斯三世墓</strong>：入口附近有「哈珀竖琴师」壁画。</li>
+          <li><strong>KV35，阿蒙霍特普二世墓</strong>：柱厅有木质与石质支撑结构。</li>
+        </ul>
+
+        <p>帝王谷位于山的背风侧，谷内几乎无风，是西岸最热的区域之一。墓室内禁止使用闪光灯，因为强光会加速壁画颜料褪色。</p>
+
+        <p>西岸还有其他几处重要遗迹。<strong>哈特谢普苏特神庙</strong>依崖壁而建，三层平台依次升高，背后是笔直的石灰岩峭壁。它没有黑暗的柱厅，而是开放、明亮、水平延伸的平台，与背后的垂直崖壁形成对比。中层的蓬特远征浮雕记录了她派人前往红海沿岸贸易、带回没药树的过程；下层柱廊有猎鹰与牛形哈托尔柱头。她死后，图特摩斯三世下令把她从历史记载中抹去，大量浮雕与雕像被凿毁，今天看到的很多是后世修复补齐的。</p>
+
+        <p><strong>门农巨像</strong>是路边两尊约 18 米高的坐像，原本是阿蒙霍特普三世葬祭庙的门面。这座庙曾是古埃及规模最大的神庙之一，后因尼罗河泛滥和地震损毁，如今只剩这两尊坐像立在农田与公路之间。</p>
+
+        <p><strong>哈布城</strong>是拉美西斯三世的葬祭庙，也是西岸保存最完整的神庙，大门、塔门、庭院和柱厅全部完整，彩色浮雕在阴影中仍能看到明显的颜色。塔门上刻着他击败「海上民族」的战争场面，包括海战、战车冲锋和统计战果的场景。因为长期被泥沙掩埋，后来又曾兼作科普特村庄，这里的浮雕受风化影响较小，颜色保存程度在西岸较为突出。</p>
+
+        <p><strong>王后谷</strong>中最重要的陵墓是 QV66，即拉美西斯二世的王后那芙塔莉的墓，被称为「王后谷的西斯廷礼拜堂」，壁画保存状况良好，包括星空穹顶和人物服饰细节，参观通常严格限时、限人数，也可能因保护需要临时关闭。<strong>贵族墓</strong>描绘的是日常生活场景，如收获葡萄、捕鱼、宴饮和听竖琴演奏，壁画色彩鲜艳，游客很少。题材以日常生活为主，与神庙、王陵的宗教场景不同。</p>
+
+        <blockquote class="pull">
+          <p>古王国的金字塔几乎全被盗掘一空，目标过于明显。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="chapter" id="s8">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">08</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">阿斯旺与阿布辛贝</h2>
+        <p class="ch-en">Aswan &amp; Abu Simbel</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">阿</span>斯旺是埃及最南端的大城，既是古埃及与努比亚的交界地带，也是前往阿布辛贝的门户。城外的采石场里躺着一根长约 42 米的方尖碑，因为石料出现裂缝而被放弃，可以看出方尖碑是从山体里整块开采出来的。</p>
+
+        <p><strong>菲莱神庙</strong>是一座必须坐船才能到达的神庙。它原本建在菲莱岛上，因阿斯旺大坝导致长期被水淹没，联合国教科文组织在 1970 年代把整座建筑群拆解搬到隔壁的阿吉勒基亚岛重建。主神是伊西斯，这里也是古代埃及最后一个仍在举行传统祭祀的地方，延续到公元 6 世纪。墙上刻着托勒密王朝的法老与罗马皇帝向埃及神献祭，说明罗马统治时期这里的祭祀仍在继续。</p>
+
+        <p>阿斯旺以南约 280 公里、几乎贴着苏丹边境的地方，拉美西斯二世把整座山崖凿成了一座神庙，正面是四尊高约 20 米的他自己的坐像，其中一尊在远古地震中塌掉了头部，掉落的石块仍在原处。大神庙的轴线被设计成每年两天（通常为 2 月 22 日和 10 月 22 日）让阳光直射进 60 多米深的圣所，依次照亮拉-荷拉赫提、拉美西斯二世本人和阿蒙三尊像，而第四尊普塔神（冥界之神）始终留在黑暗中。这一现象被普遍认为是刻意设计的。</p>
+
+        <p>1960 年代修建阿斯旺大坝时，整座神庙被切割成 1000 多块、抬升约 65 米重建，重组的精度让今天的阳光依然能照亮那三尊神像。旁边还有一座哈托尔神庙，献给拉美西斯二世的王后奈菲尔塔利。古埃及为王后单独建庙的情况很少见，正面的王后雕像与法老等高，这在古埃及艺术中比较少见。</p>
+
+        <blockquote class="pull">
+          <p>第四尊普塔神（冥界之神）始终留在黑暗中。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 ============ -->
+<section class="chapter" id="s9">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">09</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">晚期：波斯、希腊与罗马</h2>
+        <p class="ch-en">The Late Period</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">新</span>王国结束后，埃及进入第三中间期。祭司集团与法老分权，国家再次分裂。此后利比亚人、来自苏丹的努比亚人（第 25 王朝）和亚述人先后统治埃及，最后被波斯帝国两次征服。但征服者大多接受了埃及文化，努比亚国王修复神庙比谁都积极。</p>
+
+        <p>公元前 332 年，亚历山大大帝进入埃及，被祭司们承认为法老。他选址建立的城市后来成为地中海重要城市亚历山大港，以图书馆和灯塔闻名。他死后，部将托勒密建立王朝。希腊统治者沿用了法老的称号与祭祀传统。菲莱神庙、丹德拉神庙就是这个时期的产物，风格反而更接近「标准古埃及」。</p>
+
+        <p>托勒密王朝的最后一任统治者是克娄巴特拉七世。她先后与凯撒、安东尼结盟对抗罗马，公元前 30 年兵败自尽，埃及变成罗马的一个行省。</p>
+
+        <blockquote class="pull">
+          <p>但征服者大多接受了埃及文化，努比亚国王修复神庙比谁都积极。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="chapter" id="s10">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">10</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">从罗马到伊斯兰</h2>
+        <p class="ch-en">Rome to Islam</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">罗</span>马统治时期，埃及是帝国的粮仓。基督教传入后，古老神庙被废弃甚至改建为教堂。公元 4 世纪起，能读象形文字的人逐渐消失，此后近一千四百年间，古埃及文字无人能读。</p>
+
+        <p>641 年阿拉伯人到来，伊斯兰教与阿拉伯语重塑了这个国家。969 年法蒂玛王朝建立开罗，此后萨拉丁、马穆鲁克人相继登场，留下今天老城里的大片清真寺穹顶。开罗的伊斯兰城区保留着萨拉丁城堡、苏丹哈桑清真寺、伊本·图伦清真寺和 14 世纪就存在的汗·哈利利市场。在罗马城堡旧址上还有科普特开罗，包括因建在巴比伦要塞两座塔楼之上而得名的悬空教堂。</p>
+
+        <blockquote class="pull">
+          <p>公元 4 世纪起，能读象形文字的人逐渐消失，此后近一千四百年间，古埃及文字无人能读。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="chapter" id="s11">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">11</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">象形文字的破译与近代考古</h2>
+        <p class="ch-en">Decipherment</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><strong>1798 年</strong>拿破仑远征埃及，士兵在罗塞塔挖出一块刻着三种文字的石头。1822 年，法国人商博良靠这块罗塞塔石碑破译了象形文字。此后，古埃及的文献才重新可以被解读。今天能在神庙里读懂墙上写了什么，靠的就是这次破译，这也是埃及学作为一门学科的开端。</p>
+
+        <p>穆罕默德·阿里在 19 世纪开启埃及的现代化，同时也有大量文物流向欧洲。1869 年苏伊士运河通航，1882 年英国占领埃及。1922 年，考古学家霍华德·卡特在帝王谷打开 KV62，图坦卡蒙墓的完整随葬品出土，成为 20 世纪最重要的考古发现之一。</p>
+
+        <p>1952 年革命后，纳赛尔推行国有化。1971 年阿斯旺大坝建成，形成纳赛尔湖，也带来一次大规模的文物抢救行动，阿布辛贝神庙整座被切割抬升。</p>
+
+        <blockquote class="pull">
+          <p>今天能在神庙里读懂墙上写了什么，靠的就是这次破译，这也是埃及学作为一门学科的开端。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section class="chapter" id="s12">
+  <div class="ch-grid">
+    <div class="ch-aside"><span class="ch-num">12</span></div>
+    <div class="ch-main reveal">
+      <header class="ch-head">
+        <h2 class="ch-title">两座博物馆</h2>
+        <p class="ch-en">The Museums</p>
+        <div class="ch-rule"></div>
+      </header>
+      <div class="ch-body">
+        <p class="lead"><span class="dropcap">今</span>天到埃及看古埃及文物，主要去开罗的两座博物馆。它们代表了两个不同的时代。</p>
+
+        <p class="tbl-cap">速览 · 博物馆</p>
+        <div class="cards">
+          <div class="card">
+            <p class="card-y">1902</p>
+            <h3>埃及博物馆</h3>
+            <p>开罗解放广场。纳尔迈调色板、胡夫唯一的坐像、图坦卡蒙的黄金战车。木质展柜、手写标签，展陈方式较旧。</p>
+          </div>
+          <div class="card">
+            <p class="card-y">2021</p>
+            <h3>国家埃及文明博物馆</h3>
+            <p>老开罗的福斯塔特。22 具皇家木乃伊以「黄金游行」仪式迁入下沉式展厅，灯光很暗，氛围庄重。</p>
+          </div>
+          <div class="card">
+            <p class="card-y">2025</p>
+            <h3>大埃及博物馆</h3>
+            <p>吉萨高原边上，距金字塔群约 2 公里。楔形轴线直指三座金字塔，图坦卡蒙藏品首次集中完整陈列。</p>
+          </div>
+        </div>
+
+        <p><strong>埃及博物馆</strong>位于开罗解放广场，1902 年开馆，建筑本身也有百年历史。馆藏数量庞大，包括纳尔迈调色板、胡夫唯一的坐像、图坦卡蒙的黄金战车，以及大量木乃伊和动物木乃伊。纳尔迈调色板制于约公元前 3100 年，一面刻着纳尔迈统一上下埃及的场景，是研究埃及统一过程最重要的实物之一；胡夫坐像只有约 7.5 厘米高，是唯一一件确认属于大金字塔建造者的立体雕像。老馆的特点是展陈方式较旧，木质展柜、手写标签，和新建博物馆的现代展陈差别很大。图坦卡蒙的核心藏品迁往大埃及博物馆后，老馆仍有大量藏品长期陈列。</p>
+
+        <p><strong>国家埃及文明博物馆</strong>位于老开罗的福斯塔特。2021 年，22 具皇家木乃伊以「黄金游行」仪式由仪仗队护送迁至此处的下沉式展厅，其中包括拉美西斯二世本人、哈特谢普苏特和塞提一世。展厅是墓道式的下沉空间，灯光很暗，氛围庄重。木乃伊展厅通常禁止拍照。博物馆另有埃及文明综合展，展示从史前到现代的连续脉络。</p>
+
+        <p><strong>大埃及博物馆</strong>建在吉萨高原边上，距金字塔群约 2 公里，占地约 50 万平方米，2025 年 11 月正式开放。建筑设计成从沙漠向尼罗河谷放射的楔形，几条轴线直指三座金字塔，馆内长廊可以从巨大的玻璃幕墙看到胡夫金字塔。</p>
+
+        <p>馆内主要展区按参观顺序包括：入口广场上一座悬空展示的方尖碑，底部不接触地面；中庭陈列着一尊高约 11 米、重约 83 吨的拉美西斯二世花岗岩坐像，它原本立于孟菲斯，1980 年代被搬到开罗市区，后来又整体迁移至此；一段贯穿整个建筑的大阶梯，两侧和平台上按时代顺序陈列着数十件雕像与石棺，从古王国排到希腊罗马时期，阶梯顶部透过幕墙可以看到金字塔；以及单独设馆展出的胡夫太阳船。</p>
+
+        <p>最重要的部分是图坦卡蒙展厅。1922 年出土的 5000 多件随葬品，过去几十年只有一小部分在解放广场轮流展出，在大埃及博物馆首次集中、完整地陈列。黄金面具重约 10 公斤，嵌有青金石、红玉髓和玻璃。金棺多层嵌套，最内层为纯金，重逾百公斤。黄金宝座的椅背上刻着图坦卡蒙与王后安赫森帕蒙的场景，王后正在为他涂抹香油，是古埃及艺术中少见的日常生活题材。此外还有黄金战车、武器、游戏棋盘、折叠床、亚麻内衣和随葬的食物。</p>
+
+        <p>这些随葬品之所以能完整保存，与墓室的规模有关。图坦卡蒙 9 岁登基、19 岁左右死亡，墓室是大臣们仓促准备的，空间远小于法老陵墓应有的规格。但也正因为墓室上方另一座墓的碎石掩盖了入口，盗墓者始终没有挖到主墓室，随葬品因此未遭盗掘。这批文物出土于 1922 年，此前几十年只有一小部分在解放广场的埃及博物馆轮流展出。</p>
+
+        <blockquote class="pull">
+          <p>黄金面具重约 10 公斤，嵌有青金石、红玉髓和玻璃。</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="orn reveal"><i></i></div>
+
+<footer>
+  <div class="foot-mark">埃及历史</div>
+  <div class="foot-line"></div>
+  <p class="foot-sub">全文完 · 共十二节</p>
+  <p class="foot-en">Egypt · The Nile · 3100 BC — AD 2025</p>
+  <a class="totop" href="#contents">回到目录</a>
+</footer>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.classList.add('js');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var bar=d.querySelector('.progress i');
+  function onScroll(){
+    var h=root.scrollHeight-window.innerHeight;
+    var p=h>0?Math.min(1,Math.max(0,(window.pageYOffset||root.scrollTop||0)/h)):0;
+    if(bar)bar.style.width=(p*100).toFixed(2)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll);
+  onScroll();
+
+  var els=[].slice.call(d.querySelectorAll('.reveal'));
+  if(reduce||!('IntersectionObserver' in window)){
+    els.forEach(function(el){el.classList.add('in')});
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+    });
+  },{rootMargin:'0px 0px -6% 0px',threshold:.04});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+
+</body>
+</html>
